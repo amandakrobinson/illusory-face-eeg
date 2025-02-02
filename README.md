@@ -13,4 +13,4 @@ Three behavioural tasks and neural measurements (EEG) using these stimuli.
 - Face/object discrimination: speeded categorisation task
 - EEG: Stimuli were presented centrally at 3.75 Hz, while participants performed an orthogonal target detection task
 
-EEG data available at OpenNeuro: doi:10.18112/openneuro.ds005642.v1.0.0
+EEG data available at OpenNeuro: http:/doi.org/10.18112/openneuro.ds005642.v1.0.0
