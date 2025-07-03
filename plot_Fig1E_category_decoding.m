@@ -17,7 +17,8 @@ figure(1);clf
 hold on
 plot(timevect,timevect*0+0.5,'k','LineWidth',0.5,'HandleVisibility','off')
 
-co = tab10(3);
+% co = tab10(3);
+co = copper(3);
 
 for a = 1:3
     
@@ -30,6 +31,7 @@ for a = 1:3
         'FaceAlpha',.2,'LineStyle','none','HandleVisibility','off');
     plot(timevect,mu,'LineWidth',2,'Color',co(a,:))
 end
+
 legend({'Human face vs Illusory face','Human face vs Non-face object','Illusory face vs Non-face object'},...
     'Box','off')
 set(gca,'Fontsize',20)

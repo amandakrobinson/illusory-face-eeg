@@ -55,7 +55,7 @@ rdms.facelike.RDM = squareform(pdist(rate.mean','euclidean'));
 rdms.facelike.name = 'Face-like ratings';
 
 % face/object categorisation rdm
-resp = squeeze((fo_res.faceresp_image(:,1,:)+fo_res.faceresp_image(:,2,:))/2);
+resp = squeeze((fo_res.faceresp_image(:,1,:)+fo_res.faceresp_image(:,2,:))/2); % mean of short and long presentations
 rdms.faceobj.RDM = squareform(pdist(mean(resp,3),'euclidean'));
 rdms.faceobj.name = 'Face-object categorisation';
 
@@ -67,7 +67,7 @@ rdms.neural.timevect = timevect;
 save('results/rdms_all.mat','rdms','timevect')
 
 
-%% correlation of models
+%% collate models
 models = fieldnames(rdms);
 models = models([4:6 1 3 2]);
 
@@ -83,34 +83,3 @@ end
 [r,p] = corr(mods,'Type','Spearman');
 
 save('results/rdms_all.mat','rdms','names','mods','r','p')
-
-%% plot
-subplot(2,2,1)
-imagesc(r)
-set(gca,'XTickLabels',names)
-set(gca,'YTickLabels',names)
-set(gca,'XTickLabelRotation',90)
-colorbar
-colormap plasma
-
-subplot(2,2,2)
-imagesc(p<.05)
-colorbar
-set(gca,'XTickLabels',names)
-set(gca,'YTickLabels',names)
-set(gca,'XTickLabelRotation',90)
-colorbar
-colormap plasma
-
-subplot(2,2,3)
-a = mdscale(r,2,'Start','random','Criterion','metricstress','Replicates',10);
-plot(a(:,1),a(:,2),'.','MarkerSize',15)
-text(a(:,1),a(:,2)+.05,names)
-
-subplot(2,2,4)
-y=r;
-y(eye(size(y))==1)=NaN;
-bar(y(4:6,1:3))
-set(gca,'XTickLabels',names(4:6))
-legend(names(1:3),'Location','northoutside')
-

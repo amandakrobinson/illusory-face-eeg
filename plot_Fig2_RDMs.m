@@ -1,11 +1,12 @@
 %% plot Figure 2: RDMS for tasks, category models and MDS plots for the neural data at three different time windows
 
 %% load
-load('results/rdms_all.mat','rdms','timevect')
+load('illusory-face-eeg/results/rdms_all.mat','rdms')
 
 %% set up neural RDMs and MDS starting point
 cols = viridis(4);
 
+timevect = rdms.neural.timevect;
 neuraltimes =[90 150 300]; % time points
 adds = [40 60 50];
 
@@ -34,7 +35,7 @@ models = models([4:6 1 3 2]);
 for m = 1:length(models)
 
     a=subplot(4,3,m);
-    set(a,'FontSize',12)
+    set(a,'FontSize',15)
     hold on
     rdm = rdms.(models{m}).RDM;
     rdm(eye(size(rdm))==1)=0; % diagonal set to 0 (not nan)
@@ -49,7 +50,7 @@ for m = 1:length(models)
     ylim([1 300])
     a.XTick = [50:100:250];
 
-    if ismember(m,1:6)
+    if ismember(m,4:6)
         a.XTickLabel = {'Human\newlinefaces' 'Illusory\newlinefaces' 'Non-face\newlineobjects'};
     else
         a.XTickLabel = [];
@@ -74,18 +75,14 @@ for m = 1:length(models)
     end
 
     t=title(rdms.(models{m}).name);
-    t.Position(2) = t.Position(2)+15
+    t.Position(2) = t.Position(2)+15;
     t.FontSize = 18;
-    % t.Position(2) = t.Position(2)+.2;
-
 
     a.XRuler.Axle.LineStyle = 'none';
     a.YRuler.Axle.LineStyle = 'none';
 
 
 end
-
-
 
 %% plot neural MDS and downsampled RDMs
 
@@ -95,7 +92,7 @@ for c=1:size(neur,2)
 
     % colour-code different categories and plot MDS
     p=subplot(4,3,6+c);
-    p.Position = [p.Position(1) p.Position(2)-.06 p.Position(3:4)];
+    p.Position = [p.Position(1) p.Position(2)-.06 p.Position(3:4)+.03];
     hold on
     X=X1;
     % axis equal
@@ -103,7 +100,7 @@ for c=1:size(neur,2)
     axis off
     for i=1:3
         idx = (i-1)*100+1;
-        plot(X(idx:(idx+99),1),X(idx:(idx+99),2),'.','Color',cols(i,:),'MarkerSize',15)
+        plot(X(idx:(idx+99),1),X(idx:(idx+99),2),'.','Color',cols(i,:),'MarkerSize',18)
         % meancat(:,i,c) = [mean(X(idx:(idx+99),1)),mean(X(idx:(idx+99),2))];
         % secat(:,i,c) = [std(X(idx:(idx+99),1))/sqrt(100),std(X(idx:(idx+99),2))/sqrt(100)];
     end
@@ -114,7 +111,14 @@ for c=1:size(neur,2)
     set(gca,'LineWidth',2)
     t=title(sprintf('Neural %d-%d ms',neuraltimes(c),neuraltimes(c)+adds(c)));%rdms.(models{m}).name)
     t.FontSize = 18;
-    t.Position(2) = t.Position(2)+.2;
+    t.Position(2) = t.Position(2)+.08;
+
+    if c == 1
+        lb = legend({'Human faces' 'Illusory faces' 'Non-face objects'},...
+            'Orientation','horizontal','Fontsize',20,'Box','off');
+        % set(lb,'Position',[lb.Position(1)+.2 lb.Position(2)-.2 lb.Position(3:4)])
+        set(lb,'Position',[lb.Position(1)+.4 lb.Position(2)-.17 lb.Position(3) lb.Position(4)])
+    end
 
     % downsample
     rdm = squareform(neur(:,c));
@@ -131,13 +135,13 @@ for c=1:size(neur,2)
         end
     end
 
-    a=axes('Units','normalized','Position',[0.27+(c-1)*.28 0.4 0.06 0.06],'Visible','on');
+    a=axes('Units','normalized','Position',[0.27+(c-1)*.28 0.415 0.06 0.06],'Visible','on');
     imagesc(meancat,[.5 .6])
     colormap(a,plasma)
     axis square
     % axis off
-    a.XTickLabel = {'HF' 'IF' 'NFO'};
-    a.YTickLabel = {'HF' 'IF' 'NFO'};
+    a.XTickLabel = {};
+    a.YTickLabel = {};
 
     if c == 3
         cb=colorbar;
@@ -152,8 +156,21 @@ for c=1:size(neur,2)
     a.XRuler.Axle.LineStyle = 'none';
     a.YRuler.Axle.LineStyle = 'none';
 
-
 end
+
+%% add labels
+annotation('textbox','Units','Normalized','Position', [.05 .92 .04 .04],...
+    'LineStyle','none','String','A',...
+    'FontSize',40,'VerticalAlignment','middle','HorizontalAlignment','left');
+
+annotation('textbox','Units','Normalized','Position', [.05 .7 .04 .04],...
+    'LineStyle','none','String','B',...
+    'FontSize',40,'VerticalAlignment','middle','HorizontalAlignment','left');
+
+annotation('textbox','Units','Normalized','Position', [.05 .46 .04 .04],...
+    'LineStyle','none','String','C',...
+    'FontSize',40,'VerticalAlignment','middle','HorizontalAlignment','left');
+
 
 %% save RDM figures
 fn = 'figures/Figure2_RDMs';
