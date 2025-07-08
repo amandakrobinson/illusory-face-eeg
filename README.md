@@ -2,7 +2,10 @@
 
 Code repository for:
 
-Robinson AK, Stuart G, Shatek SM, Herbert A, Taubert J. (2025). How the spontaneous perception of face pareidolia unfolds over time.
+Robinson AK, Stuart G, Shatek SM, Herbert A, Taubert J. (2025). Neural correlates reveal separate stages of spontaneous face perception.
+
+Preprint: https://doi.org/10.31234/osf.io/vrtbx_v1 
+
 
 300 images of human face, illusory face and matched non-face object stimuli.
 
