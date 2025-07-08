@@ -7,7 +7,7 @@ load('results/stimorder.mat','stimnames_FPO');
 
 %% read data from face-likeness ratings
 
-fn = dir('Ratings/face-likeness/qualtrics-face-likeness-data.xlsx');
+fn = dir('results/qualtrics-face-likeness-data.xlsx');
 rawdata = readtable([fn.folder '/' fn.name]);
 
 gender = rawdata(:,19);
